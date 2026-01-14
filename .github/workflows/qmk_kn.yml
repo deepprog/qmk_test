@@ -19,7 +19,9 @@ jobs:
 
     - name: Install dependencies
       working-directory: qmk_firmware
-      run: ./util/qmk_install.sh
+      run: |
+        ./util/qmk_install.sh
+        qmk setup
 
     - name: Compile
       working-directory: qmk_firmware
