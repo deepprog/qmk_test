@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  KEYBOARD: 'kagizara/miniaxe'   # vendor/keyboard 形式を推奨
+  KEYBOARD: 'miniaxe'
   KEYMAP: 'default'
 
 jobs:
