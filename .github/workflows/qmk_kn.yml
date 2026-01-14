@@ -5,7 +5,7 @@ on:
 
 env:
   KEYBO‘RD: 'kagizaraya/miniaxe'
-  KEYMAP: 'keymaps/default'
+  KEYMAP: 'default'
 
 jobs:
   build:
