@@ -4,8 +4,8 @@ on:
   push:
 
 env:
-  KEYBOARD: 'kagizaraya:miniaxe'
-  KEYMAP: 'default'
+  KEYBO‘RD: 'kagizaraya/miniaxe'
+  KEYMAP: 'keymaps/default'
 
 jobs:
   build:
