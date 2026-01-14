@@ -20,7 +20,6 @@ jobs:
     - name: Install dependencies
       working-directory: qmk_firmware
       run: |
-        ./util/qmk_install.sh
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
 
