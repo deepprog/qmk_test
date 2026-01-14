@@ -110,4 +110,5 @@ jobs:
       with:
         name: miniaxe-firmware-${{ env.DETECTED_KEYBOARD }}-${{ env.DETECTED_KEYMAP }}
         path: |
-          qmk_f
+          qmk_firmware/.build/*.hex
+          ./.build/*.hex
