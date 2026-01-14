@@ -1,33 +1,43 @@
-name: QMK
+name: QMK Test Installation
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
   KEYBOARD: 'miniaxe'
   KEYMAP: 'default'
 
 jobs:
-  build:
+  qmk-build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout source
-      uses: actions/checkout@v2
+    # リポジトリをチェックアウト
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Install QMK dependencies
+    # QMK CLIのDockerイメージを使ってビルド
+    - name: Build keyboard firmware with QMK Docker
       run: |
-        sudo apt-get update
-        sudo apt-get install -y qmk-qmk-firmware
-        qmk setup -y
+        docker run --rm -v $(pwd):/qmk_firmware qmkfm/qmk_cli:latest bash -c "cd /qmk_firmware && qmk compile -kb $KEYBOARD -km $KEYMAP"
+      env:
+        KEYBOARD: miniaxe
+        KEYMAP: default
 
-    - name: Compile keyboard firmware
-      run: ./bin/qmk compile -kb ${{ env.KEYBOARD }} -km ${{ env.KEYMAP }}
-
+    # ビルドアーティファクトをアップロード
     - name: Upload firmware artifacts
-      uses: actions/upload-artifact@v2
+      if: success()
+      uses: actions/upload-artifact@v4
       with:
         name: firmware
-        path: ./.build/*.hex
+        path: .build/*.hex
+
+    # ビルド結果を表示
+    - name: Display build result
+      if: always()
+      run: |
+        echo "Build completed!"
+        ls -la .build/
