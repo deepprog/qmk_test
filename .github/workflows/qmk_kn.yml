@@ -6,8 +6,8 @@ on:
 defaults:
   run:
     environment:
-      KEYBOARD: '[キーボード名]'
-      KEYMAP: '[キーマップ名]'
+      KEYBOARD: 'miniaxe'
+      KEYMAP: 'default'
 
 jobs:
   build:
