@@ -25,7 +25,6 @@ jobs:
       working-directory: qmk_firmware
       run: |
           ls
-          cd qmk_firmware
           make ${{ env.KEYBOARD }}:${{ env.KEYMAP }}
 
     - name: Upload artifact
