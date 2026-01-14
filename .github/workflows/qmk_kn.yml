@@ -24,6 +24,7 @@ jobs:
     - name: Compile
       working-directory: qmk_firmware
       run: |
+          ls
           cd qmk_firmware
           ./bin/qmk compile -kb ${{ env.KEYBOARD }} -km ${{ env.KEYMAP }}
 
