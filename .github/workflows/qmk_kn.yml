@@ -24,9 +24,7 @@ jobs:
 
     - name: Compile
       working-directory: qmk_firmware
-      run: |
-          ls
-          make ${{ env.KEYBOARD }}${{ env.KEYMAP }}
+      run: make kagizaraya/miniaxe:default
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
