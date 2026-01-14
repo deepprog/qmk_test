@@ -7,7 +7,7 @@ defaults:
   run:
     environment:
       KEYBOARD: 'miniaxe'
-      KEYMAP: 'default'
+      KEYMAP: ''
 
 jobs:
   build:
