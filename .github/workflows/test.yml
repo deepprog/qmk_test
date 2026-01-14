@@ -26,7 +26,7 @@ jobs:
     - name: Install QMK dependencies
       run: |
         sudo apt-get update
-        bash util/qmk_install.sh
+        util/qmk_install.sh
 
     # QMK CLIの動作確認
     - name: Verify QMK CLI installation
