@@ -1,1 +1,75 @@
+name: QMK Build - kagizara/miniaxe
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      keymap:
+        description: 'Keymap to compile'
+        required: false
+        default: 'default'
+
+env:
+  KEYBOARD: kagizara/miniaxe
+  KEYMAP: default
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Prepare qmk_firmware (clone upstream)
+      run: |
+        set -eux
+        git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_firmware
+        # リポジトリ内にカスタム keyboard があればコピー
+        if [ -d keyboards ]; then
+          cp -a keyboards/* qmk_firmware/keyboards/ || true
+        fi
+        if [ -d kagizara ]; then
+          mkdir -p qmk_firmware/keyboards/kagizara
+          cp -a kagizara/* qmk_firmware/keyboards/kagizara/ || true
+        fi
+
+    - name: (optional) Check qmk exists in image (debug)
+      run: |
+        docker run --rm qmkfm/qmk_cli:latest qmk --version || true
+
+    - name: Build firmware inside QMK Docker (run as root)
+      env:
+        KEYBOARD: ${{ env.KEYBOARD }}
+        KEYMAP: ${{ env.KEYMAP }}
+      run: |
+        set -euxo pipefail
+        docker run --rm \
+          -v "${{ github.workspace }}/qmk_firmware:/qmk_firmware" \
+          -w /qmk_firmware \
+          qmkfm/qmk_cli:latest \
+          bash -lc "qmk setup -y || true && qmk compile -kb '${KEYBOARD}' -km '${KEYMAP}'"
+
+    - name: Fix ownership of build artifacts
+      # コンテナで root が書き込んだファイルを runner が扱えるようにする
+      run: |
+        sudo chown -R $(id -u):$(id -g) qmk_firmware/.build || true
+        sudo chown -R $(id -u):$(id -g) qmk_firmware || true
+
+    - name: Show build output (debug)
+      if: always()
+      run: |
+        echo "qmk_firmware/.build:"
+        ls -la qmk_firmware/.build || true
+        echo "repo root .build:"
+        ls -la ./.build || true
+
+    - name: Upload firmware artifact (.hex)
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware-${{ env.KEYBOARD }}-${{ env.KEYMAP }}
+        path: |
+          qmk_firmware/.build/*.hex
+          ./.build/*.hex
 
