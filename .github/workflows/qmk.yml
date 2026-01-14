@@ -1,31 +1,33 @@
 name: QMK
 
 on:
-  - push
+  push:
+    branches:
+      - main
 
 defaults:
   run:
     environment:
       KEYBOARD: 'miniaxe'
-      KEYMAP: ''
+      KEYMAP: 'default'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Clone qmk/qmk_firmware
+    - name: Checkout source
       uses: actions/checkout@v2
-      with:
-        repository: 'qmk/qmk_firmware'
-        submodules: true
 
-    - name: Install dependencies
-      run: ./util/qmk_install.sh
+    - name: Install QMK dependencies
+      run: sudo apt-get update && ./util/qmk_install.sh
 
-    - name: Compile
+    - name: Compile keyboard firmware
       run: ./bin/qmk compile -kb $KEYBOARD -km $KEYMAP
 
-    - uses: actions/upload-artifact@v2
+    - name: Upload firmware artifacts
+      uses: actions/upload-artifact@v2
       with:
-        name: artifacts
+        name: firmware
         path: ./.build/*.hex
+
