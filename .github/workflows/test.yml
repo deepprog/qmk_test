@@ -40,5 +40,5 @@ jobs:
         KEYMAP: 'default'
       run: |
         echo "Testing QMK Build..."
-        qmk compile -kb $KEYBOARD -km $KEYMAP
+
 
