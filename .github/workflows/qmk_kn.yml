@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  KEYBOARD: 'kagizaraya/miniaxe'
+  KEYBOARD: 'kagizaraya:miniaxe'
   KEYMAP: 'default'
 
 jobs:
