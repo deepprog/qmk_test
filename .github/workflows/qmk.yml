@@ -2,113 +2,34 @@ name: QMK Build - miniaxe
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
-    inputs:
-      keyboard:
-        description: 'Keyboard name (vendor/keyboard or keyboard). If empty, will try to detect "miniaxe".'
-        required: false
-        default: ''
-      keymap:
-        description: 'Keymap to compile'
-        required: false
-        default: 'default'
 
 env:
-  DEFAULT_KEYBOARD: miniaxe
-  DEFAULT_KEYMAP: default
+  KEYBO‘RD: 'kagizaraya/miniaxe'
+  KEYMAP: 'default'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
 
-    - name: Prepare qmk_firmware (clone upstream)
+    steps:
+    - name: Checkout qmk_firmware (upstream)
       run: |
-        set -eux
         rm -rf qmk_firmware
         git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_firmware
-        # If this repo contains custom keyboard files (e.g. keyboards/ or kagizara/), copy them in
-        if [ -d keyboards ]; then
-          cp -a keyboards/* qmk_firmware/keyboards/ || true
-        fi
-        if [ -d kagizara ]; then
-          mkdir -p qmk_firmware/keyboards/kagizara
-          cp -a kagizara/* qmk_firmware/keyboards/kagizara/ || true
-        fi
 
-    - name: Decide KEYBOARD and KEYMAP
+    - name: Install dependencies
+      working-directory: qmk_firmware
       run: |
-        # workflow_dispatch input overrides defaults if provided
-        echo "INPUT_KEYBOARD=${{ github.event.inputs.keyboard }}" >> $GITHUB_ENV
-        echo "INPUT_KEYMAP=${{ github.event.inputs.keymap }}" >> $GITHUB_ENV
+        ./util/qmk_install.sh
+        curl -fsSL https://install.qmk.fm | sh
+        qmk setup
 
-        KB="${{ github.event.inputs.keyboard }}"
-        if [ -z "$KB" ]; then
-          KB="${DEFAULT_KEYBOARD}"
-        fi
+    - name: Compile
+      working-directory: qmk_firmware
+      run: make kagizaraya/miniaxe:default
 
-        # Try to detect path under qmk_firmware/keyboards (vendor/keyboard or keyboard)
-        DETECTED="$(find qmk_firmware/keyboards -type d -name "$KB" -print -quit || true)"
-        if [ -n "$DETECTED" ]; then
-          REL=${DETECTED#qmk_firmware/keyboards/}
-          echo "DETECTED_KEYBOARD=$REL" >> $GITHUB_ENV
-          echo "Detected keyboard under qmk_firmware/keyboards: $REL"
-        else
-          # fallback: use the provided/ default name as-is
-          echo "DETECTED_KEYBOARD=$KB" >> $GITHUB_ENV
-          echo "Using keyboard name: $KB"
-        fi
-
-        KM="${{ github.event.inputs.keymap }}"
-        if [ -z "$KM" ]; then
-          KM="${DEFAULT_KEYMAP}"
-        fi
-        echo "DETECTED_KEYMAP=$KM" >> $GITHUB_ENV
-        echo "Keymap: $KM"
-
-    - name: Build with QMK Docker (ensure qmk available)
-      env:
-        KEYBOARD: ${{ env.DETECTED_KEYBOARD }}
-        KEYMAP: ${{ env.DETECTED_KEYMAP }}
-      run: |
-        set -euxo pipefail
-        # mount prepared qmk_firmware into container
-        docker run --rm \
-          -v "${{ github.workspace }}/qmk_firmware:/qmk_firmware" \
-          -w /qmk_firmware \
-          qmkfm/qmk_cli:latest \
-          bash -lc "
-            set -eux
-            # If qmk command is missing in image, install qmk via pip
-            if ! command -v qmk >/dev/null 2>&1; then
-              python3 -m pip install --upgrade pip
-              python3 -m pip install qmk
-            fi
-            qmk --version
-            qmk setup -y || true
-            qmk compile -kb '${{ env.DETECTED_KEYBOARD }}' -km '${{ env.DETECTED_KEYMAP }}'
-          "
-
-    - name: Fix ownership of artifacts
-      run: |
-        sudo chown -R $(id -u):$(id -g) qmk_firmware || true
-
-    - name: Show build output (debug)
-      if: always()
-      run: |
-        echo "qmk_firmware/.build:"
-        ls -la qmk_firmware/.build || true
-        echo "repo root .build:"
-        ls -la ./.build || true
-
-    - name: Upload firmware artifact (.hex)
-      if: success()
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: miniaxe-firmware-${{ env.DETECTED_KEYBOARD }}-${{ env.DETECTED_KEYMAP }}
-        path: |
-          qmk_firmware/.build/*.hex
-          ./.build/*.hex
+        name: artifacts
+        path: qmk_firmware/.build/*.hex
