@@ -28,6 +28,11 @@ jobs:
       working-directory: qmk_firmware
       run: make kagizaraya/miniaxe:default
 
+    - name: Debug list
+      run: |
+        ls -la qmk_firmware/.build || true
+        find qmk_firmware -type f -name "*.hex" -print || true
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
