@@ -6,7 +6,7 @@ on:
 defaults:
   run:
     environment:
-      KEYBOARD: 'kagizaraya/miniaxe'
+      KEYBOARD: 'miniaxe'
       KEYMAP: 'default'
 
 jobs:
