@@ -1,1 +1,44 @@
 
+name: QMK Test Installation
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  qmk-install-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # リポジトリをチェックアウト
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # 必要なパッケージをインストール
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 pip python3-venv
+
+    # QMK依存ファイルのインストール
+    - name: Install QMK dependencies
+      run: |
+        sudo apt-get update
+        bash util/qmk_install.sh
+
+    # QMK CLIの動作確認
+    - name: Verify QMK CLI installation
+      run: |
+        qmk --version
+
+    # キーボードファームウェアのビルドテスト
+    - name: Build keyboard firmware
+      env:
+        KEYBOARD: 'miniaxe'
+        KEYMAP: 'default'
+      run: |
+        echo "Testing QMK Build..."
+        qmk compile -kb $KEYBOARD -km $KEYMAP
+
