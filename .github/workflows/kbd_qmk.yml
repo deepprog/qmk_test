@@ -1,1 +1,66 @@
+name: QMK Build - kagizara/miniaxe
 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      keymap:
+        description: 'Keymap to compile'
+        required: false
+        default: 'default'
+
+env:
+  KEYBOARD: kagizara/miniaxe
+  KEYMAP: default
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Determine KEYMAP from workflow input
+      run: echo "KEYMAP=${{ github.event.inputs.keymap != '' && github.event.inputs.keymap || env.KEYMAP }}" >> $GITHUB_ENV
+
+    - name: Build firmware with QMK Docker
+      run: |
+        docker run --rm \
+          -v "${{ github.workspace }}:/qmk_firmware" \
+          -w /qmk_firmware \
+          --user "$(id -u):$(id -g)" \
+          qmkfm/qmk_cli:latest \
+          bash -lc "set -euo pipefail
+            # 如果リポジトリに qmk_firmware が既にある場合はそのまま使用
+            if [ ! -d /qmk_firmware/qmk_firmware ] && [ ! -f /qmk_firmware/rules.mk ]; then
+              # qmk_firmware がワークスペース直下にない場判断で upstream を clone
+              git clone --depth=1 https://github.com/qmk/qmk_firmware.git /qmk_firmware
+            fi
+            # (オプション) ワークスペース内にカスタムキーボードを置いている場合は qmk_firmware にコピーする
+            if [ -d /qmk_firmware/custom_keyboard ]; then
+              cp -a /qmk_firmware/custom_keyboard/* /qmk_firmware/keyboards/ || true
+            fi
+            cd /qmk_firmware
+            qmk setup -y || true
+            qmk compile -kb \"${{ env.KEYBOARD }}\" -km \"${{ env.KEYMAP }}\""
+      env:
+        KEYBOARD: ${{ env.KEYBOARD }}
+        KEYMAP: ${{ env.KEYMAP }}
+
+    - name: Show build output (debug)
+      if: always()
+      run: |
+        echo "Workspace: $GITHUB_WORKSPACE"
+        ls -la "$GITHUB_WORKSPACE"
+        echo ".build contents:"
+        ls -la "$GITHUB_WORKSPACE/.build" || true
+
+    - name: Upload firmware artifact (.hex)
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: firmware-${{ env.KEYBOARD }}-${{ env.KEYMAP }}
+        path: ./.build/*.hex
