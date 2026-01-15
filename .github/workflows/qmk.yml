@@ -29,6 +29,10 @@ jobs:
       with:
         path: './keyboards/kagizaraya/miniaxe/keymaps/test'
 
+    - name: List contents of miniaxe/keymaps after clone
+      run: |
+        ls -la ./keyboards/kagizaraya/miniaxe/keymaps
+
     - name: Compile
       working-directory: qmk_firmware
       run: make kagizaraya/miniaxe:default
