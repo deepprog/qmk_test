@@ -24,7 +24,7 @@ jobs:
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
 
-    - name: Clone deepprog/qmk-test
+    - name: Clone deepprog/qmk_test
       uses: actions/checkout@v2
       with:
         path: './keyboards/kagizaraya/miniaxe/keymaps/test'
