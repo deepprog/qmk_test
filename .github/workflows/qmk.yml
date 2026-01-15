@@ -27,7 +27,7 @@ jobs:
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
       with:
-        path: './keyboards/kagizaraya/miniaxe/keymaps/test'
+        path: 'qmk_firmware/keyboards/kagizaraya/miniaxe/keymaps/test'
 
     - name: List contents
       run: |
