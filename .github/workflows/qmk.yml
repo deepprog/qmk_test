@@ -39,7 +39,7 @@ jobs:
 
     - name: Compile
       working-directory: qmk_firmware
-      run: make kagizaraya/miniaxe:default
+      run: make kagizaraya/miniaxe:test
 
     - name: Debug list
       run: |
@@ -50,4 +50,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: artifacts
-        path: qmk_firmware/.build/kagizaraya_miniaxe_default.hex
+        path: qmk_firmware/.build/kagizaraya_miniaxe_test.hex
