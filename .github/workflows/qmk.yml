@@ -35,11 +35,11 @@ jobs:
 
     - name: List contents of miniaxe/keymaps after clone
       run: |
-        ls -la ./keyboards/kagizaraya/miniaxe/keymaps
+        ls -la qmk_firmware/keyboards/kagizaraya/miniaxe/keymaps
 
     - name: List contents of test keymap
       run: |
-        ls -la ./keyboards/kagizaraya/miniaxe/keymaps/test
+        ls -la qmk_firmware/keyboards/kagizaraya/miniaxe/keymaps/test
 
     - name: Compile
       working-directory: qmk_firmware
