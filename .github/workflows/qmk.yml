@@ -25,13 +25,13 @@ jobs:
         qmk setup
 
     - name: Clone deepprog/qmk_test
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         path: './keyboards/kagizaraya/miniaxe/keymaps/test'
 
     - name: Compile
       working-directory: qmk_firmware
-      run: make kagizaraya/miniaxe:test
+      run: make kagizaraya/miniaxe:default
 
     - name: Debug list
       run: |
@@ -42,4 +42,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: artifacts
-        path: qmk_firmware/.build/kagizaraya_miniaxe_test.hex
+        path: qmk_firmware/.build/kagizaraya_miniaxe_default.hex
