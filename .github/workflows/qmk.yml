@@ -29,6 +29,10 @@ jobs:
       with:
         path: './keyboards/kagizaraya/miniaxe/keymaps/test'
 
+    - name: List contents
+      run: |
+        ls
+
     - name: List contents of miniaxe/keymaps after clone
       run: |
         ls -la ./keyboards/kagizaraya/miniaxe/keymaps
