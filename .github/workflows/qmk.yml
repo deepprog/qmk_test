@@ -5,7 +5,7 @@ on:
 
 env:
   KEYBORD: 'kagizaraya/miniaxe'
-  KEYMAP: 'default'
+  KEYMAP: 'test'
 
 jobs:
   build:
