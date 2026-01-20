@@ -42,11 +42,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               | Ctrl | LOWER|  Sp  |           |  Sp  | RAISE| Shift|
  *               `--------------------'           `--------------------'
  */
-[_QWERTY] = LAYOUT( \
-  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    \
-  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, \
-  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, \
-                   KC_LCTL,  LOWER,   KC_SPC,       KC_SPC,  RAISE,   KC_LSFT \
+[_QWERTY] = LAYOUT_split_3x5_3(
+  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
+  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,
+  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+                   KC_LCTL,  LOWER,   KC_SPC,       KC_SPC,  RAISE,   KC_LSFT
 ),
 
 /* Raise テンキーと記号
@@ -61,11 +61,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               | Ctrl |      | Shift|           |  0)  |@@@@@@| Win  |
  *               `--------------------'           `--------------------'
  */
-[_RAISE] = LAYOUT( \
-  KC_GRV,  S(KC_7), S(KC_8), S(KC_9), S(KC_0),      KC_EQL,  KC_7, KC_8,  KC_9, KC_0,  \
-  _______, S(KC_4), S(KC_5), S(KC_6), _______,      KC_QUOT, KC_4, KC_5,  KC_6, KC_BSLS, \
-  KC_LPRN, S(KC_1), S(KC_2), S(KC_3), KC_RPRN,      KC_LBRC, KC_1, KC_2,  KC_3, KC_RBRC, \
-                    KC_LCTL, _______, KC_LSFT,      KC_0,    _______, KC_LGUI  \
+[_RAISE] = LAYOUT_split_3x5_3(
+  KC_GRV,  S(KC_7), S(KC_8), S(KC_9), S(KC_0),      KC_EQL,  KC_7, KC_8,  KC_9, KC_0,
+  _______, S(KC_4), S(KC_5), S(KC_6), _______,      KC_QUOT, KC_4, KC_5,  KC_6, KC_BSLS,
+  KC_LPRN, S(KC_1), S(KC_2), S(KC_3), KC_RPRN,      KC_LBRC, KC_1, KC_2,  KC_3, KC_RBRC,
+                    KC_LCTL, _______, KC_LSFT,      KC_0,    _______, KC_LGUI
 ),
 
 /* Lower 制御系と左手テンキー
@@ -80,11 +80,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               |  0)  |@@@@@@|      |           | Shift|      | Win  |
  *               `--------------------'           `--------------------'
  */
-[_LOWER] = LAYOUT( \
-  KC_ESC,  KC_7, KC_8, KC_9, KC_0,           KC_HOME, KC_BSPC, KC_MINS, KC_DEL,  KC_ESC,  \
-  KC_TAB,  KC_4, KC_5, KC_6, _______,        KC_LEFT, KC_UP,   KC_RGHT, _______, KC_ENT,  \
-  S(KC_9), KC_1, KC_2, KC_3, S(KC_0),        KC_END,  KC_DOWN, KC_TAB,  _______, _______, \
-                 KC_0, _______, _______,     KC_LSFT, _______, KC_LGUI \
+[_LOWER] = LAYOUT_split_3x5_3(
+  KC_ESC,  KC_7, KC_8, KC_9, KC_0,           KC_HOME, KC_BSPC, KC_MINS, KC_DEL,  KC_ESC,
+  KC_TAB,  KC_4, KC_5, KC_6, _______,        KC_LEFT, KC_UP,   KC_RGHT, _______, KC_ENT,
+  S(KC_9), KC_1, KC_2, KC_3, S(KC_0),        KC_END,  KC_DOWN, KC_TAB,  _______, _______,
+                 KC_0, _______, _______,     KC_LSFT, _______, KC_LGUI
 ),
 
 
@@ -100,11 +100,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               |      |      |      |           |  F10 |      |      |
  *               `--------------------'           `--------------------'
  */
-[_ADJUST] =  LAYOUT( \
-  RESET,   _______, _______, _______, _______,      _______, KC_F7,   KC_F8,   KC_F9,   RESET,   \
-  _______, _______, KC_VOLD, KC_MUTE, KC_VOLU,      _______, KC_F4,   KC_F5,   KC_F6,   KC_F11, \
-  _______, _______, KC_MPRV, KC_MPLY, KC_MNXT,      _______, KC_F1,   KC_F2,   KC_F3,   KC_F12,  \
-                    _______, _______, _______,      KC_F10,  _______, _______  \
+[_ADJUST] = LAYOUT_split_3x5_3(
+  QK_BOOT, _______, _______, _______, _______,      _______, KC_F7,   KC_F8,   KC_F9,   QK_BOOT,
+  _______, _______, KC_VOLD, KC_MUTE, KC_VOLU,      _______, KC_F4,   KC_F5,   KC_F6,   KC_F11,
+  _______, _______, KC_MPRV, KC_MPLY, KC_MNXT,      _______, KC_F1,   KC_F2,   KC_F3,   KC_F12,
+                    _______, _______, _______,      KC_F10,  _______, _______
 )
 };
 
