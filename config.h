@@ -60,4 +60,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TAPPING_TERM 0 //タップダンス不要で高速応
 #define PERMISSIVE_HOLD ON // ISH T6 HOLD
-#define RETRO_TAPPINGON //HOLDで何も押さずに離したらTAP
+#define RETRO_TAPPINGON ON //HOLDで何も押さずに離したらTAP
