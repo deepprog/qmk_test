@@ -58,6 +58,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define I2C_MASTER_LEFT
 //#define I2C_MASTER_RIGHT
 
-#define TAPPING_TERM 0 //タップダンス不要で高速応
-#define PERMISSIVE_HOLD ON // ISH T6 HOLD
+#define TAPPING_TERM 0 //タップダンス不要で高速反応
+#define PERMISSIVE_HOLD ON //短い時間でもHOLD
 #define RETRO_TAPPINGON ON //HOLDで何も押さずに離したらTAP
