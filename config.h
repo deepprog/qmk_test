@@ -57,3 +57,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define EE_HANDS
 #define I2C_MASTER_LEFT
 //#define I2C_MASTER_RIGHT
+
+#deline TAPPING_TERM 0 //タップダンス不要で高速応
+#define PERMISSIVE HOLD ON // ISH T6 HOLD
+#define RETRO_TAPPINGON //HOLDで何も押さずに離したらTAP
