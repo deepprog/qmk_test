@@ -19,11 +19,6 @@ jobs:
         submodules: true
         path: qmk_firmware
 
-    - name: Install dependencies
-      run: |
-        curl -fsSL https://install.qmk.fm | sh
-        qmk setup
-
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
       with:
@@ -41,12 +36,18 @@ jobs:
       run: |
         ls -la qmk_firmware/keyboards/kagizaraya/miniaxe/keymaps/test
 
+    - name: Install dependencies
+      run: |
+        curl -fsSL https://install.qmk.fm | sh
+        qmk setup
+
     - name: Compile
       working-directory: qmk_firmware
       run: |
         qmk compile -kb miniaxe -km test
 
     - name: Run qmk doctor
+      working-directory: qmk_firmware
       run: qmk doctor
       continue-on-error: true
 
