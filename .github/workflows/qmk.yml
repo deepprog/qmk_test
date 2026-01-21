@@ -23,7 +23,6 @@ jobs:
         ./util/qmk_install.sh
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
-        qmk doctor
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
