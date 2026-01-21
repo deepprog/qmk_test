@@ -19,7 +19,7 @@ jobs:
         submodules: true
         path: qmk_firmware
 
-    - name: Clone deepprog/qmk_test
+    - name: Clone ./qmk_test
       uses: actions/checkout@v4
       with:
         path: 'qmk_firmware/keyboards/kagizaraya/miniaxe/keymaps/test'
