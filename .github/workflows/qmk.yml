@@ -23,7 +23,7 @@ jobs:
        ./util/qmk_install.sh
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
-        which avr-gc
+        which avr-gcc
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
