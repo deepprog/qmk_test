@@ -16,6 +16,7 @@ jobs:
       run: |
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
+        qmk install
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
