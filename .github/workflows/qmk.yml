@@ -15,15 +15,15 @@ jobs:
     - name: Checkout qmk_firmware (upstream)
       run: |
         rm -rf qmk_firmware
-        git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_git
+        git clone --recurse-submodules --depth=1 https://github.com/qmk/qmk_firmware.git qmk_git
 
     - name: Install dependencies
       working-directory: qmk_firmware
       run: |
-       ./util/qmk_install.sh
+        ./util/qmk_install.sh
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
-        which avr-gcc
+        qmk doctor
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
