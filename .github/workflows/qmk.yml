@@ -22,6 +22,8 @@ jobs:
       run: |
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
+
+        which avr-gcc
         qmk doctor
 
         ./util/qmk_install.sh
