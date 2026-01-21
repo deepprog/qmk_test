@@ -12,11 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Clone qmk/qmk_firmware
+      uses: actions/checkout@v2
+      with:
+        repository: 'qmk/qmk_firmware'
+        submodules: true
+
     - name: Install dependencies
       run: |
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
-        qmk install
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
