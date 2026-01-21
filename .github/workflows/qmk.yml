@@ -15,7 +15,8 @@ jobs:
     - name: Checkout qmk_firmware (upstream)
       run: |
         rm -rf qmk_firmware
-        git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_firmware
+        git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_git
+        submodule deinit -f .
         git submodule update --init --recursive
 
     - name: Install dependencies
