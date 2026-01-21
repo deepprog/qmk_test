@@ -47,6 +47,7 @@ jobs:
       run: make kagizaraya/miniaxe:test
       
     - name: qmk doctor
+      run |
         qmk doctor
 
     - name: Debug list
