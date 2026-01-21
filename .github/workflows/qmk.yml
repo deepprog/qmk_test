@@ -43,7 +43,8 @@ jobs:
 
     - name: Compile
       working-directory: qmk_firmware
-      run: make kagizaraya/miniaxe:test
+      run: |
+        qmk compile -kb miniaxe -km test
 
     - name: Run qmk doctor
       run: qmk doctor
