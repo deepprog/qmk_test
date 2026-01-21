@@ -12,15 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout qmk_firmware (upstream)
-      run: |
-        rm -rf qmk_firmware
-        git clone --recurse-submodules --depth=1 https://github.com/qmk/qmk_firmware.git qmk_firmware
-
     - name: Install dependencies
-      working-directory: qmk_firmware
       run: |
-        ./util/qmk_install.sh
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
 
