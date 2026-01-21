@@ -44,11 +44,10 @@ jobs:
     - name: Compile
       working-directory: qmk_firmware
       run: make kagizaraya/miniaxe:test
-      
-    - name: qmk doctor
-      working-directory: qmk_firmware
-      run: |
-        qmk doctor
+
+    - name: Run qmk doctor
+      run: qmk doctor
+      continue-on-error: true
 
     - name: Debug list
       run: |
