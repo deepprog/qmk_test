@@ -16,6 +16,7 @@ jobs:
       run: |
         rm -rf qmk_firmware
         git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_firmware
+        git submodule update --init --recursive
 
     - name: Install dependencies
       working-directory: qmk_firmware
