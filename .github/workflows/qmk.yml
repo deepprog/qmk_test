@@ -16,8 +16,6 @@ jobs:
       run: |
         rm -rf qmk_firmware
         git clone --depth=1 https://github.com/qmk/qmk_firmware.git qmk_git
-        submodule deinit -f .
-        git submodule update --init --recursive
 
     - name: Install dependencies
       working-directory: qmk_firmware
@@ -25,8 +23,7 @@ jobs:
        ./util/qmk_install.sh
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
-        which avr-gcc
-        qmk doctor
+        which avr-gc
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
@@ -48,6 +45,9 @@ jobs:
     - name: Compile
       working-directory: qmk_firmware
       run: make kagizaraya/miniaxe:test
+      
+    - name: qmk doctor
+        qmk doctor
 
     - name: Debug list
       run: |
