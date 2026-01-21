@@ -20,9 +20,9 @@ jobs:
     - name: Install dependencies
       working-directory: qmk_firmware
       run: |
-        
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
+        ./util/qmk_install.sh
 
     - name: Clone deepprog/qmk_test
       uses: actions/checkout@v4
