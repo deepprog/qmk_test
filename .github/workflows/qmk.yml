@@ -41,15 +41,15 @@ jobs:
         curl -fsSL https://install.qmk.fm | sh
         qmk setup
 
-    - name: Compile
-      working-directory: qmk_firmware
-      run: |
-        qmk compile -kb miniaxe -km test
-
     - name: Run qmk doctor
       working-directory: qmk_firmware
       run: qmk doctor
       continue-on-error: true
+
+    - name: Compile
+      working-directory: qmk_firmware
+      run: |
+        qmk compile -kb miniaxe -km test
 
     - name: Debug list
       run: |
